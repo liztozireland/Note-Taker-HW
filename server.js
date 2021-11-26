@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
     console.log(req.body);
     const noteWrite = {
       title: req.body.title,
-      text: req.body.text
+      text: req.body.text,
+      id: uuidv4()
     }
     console.log(noteWrite)
     dBase.push(noteWrite)
