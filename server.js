@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const db = require('./db/db.json');
+const noteText = require('./db/db.json');
 const fs = require('fs');
 const {get} = require('http');
 
@@ -19,9 +19,29 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'notes.html'))
   })
   app.get('/api/notes', (req, res) => {
-    res.json(db)
+    res.json(noteText)
   });
 
+  app.post('/api/notes', (req, res) => {
+    console.log(req.body);
+    const newNote = {
+      noteTitle: req.body.title,
+      noteBody: req.body.body
+    }
+    console.log(newNote)
+    noteText.push(newNote)
+    console.log(noteText)
+    fs.writeFile(noteText, JSON.stringify(noteText), (err) =>{
+          if (err) {
+              return console.log(err)
+          }; 
+          res.json(noteText)
+      })
+  })
+    
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, './index.html'));
+      });
 
 
 app.listen(PORT, () => {console.log(`App listening on http://localhost:${PORT}`)})
