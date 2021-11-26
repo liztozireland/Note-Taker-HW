@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const noteText = require('./db/db.json');
+const dBase = require('./db/db.json');
 const fs = require('fs');
-const {get} = require('http');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = 8081;
@@ -19,23 +19,23 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'notes.html'))
   })
   app.get('/api/notes', (req, res) => {
-    res.json(noteText)
+    res.json(dBase)
   });
 
   app.post('/api/notes', (req, res) => {
     console.log(req.body);
-    const newNote = {
-      noteTitle: req.body.title,
-      noteBody: req.body.body
+    const noteWrite = {
+      title: req.body.title,
+      text: req.body.text
     }
-    console.log(newNote)
-    noteText.push(newNote)
-    console.log(noteText)
-    fs.writeFile(noteText, JSON.stringify(noteText), (err) =>{
+    console.log(noteWrite)
+    dBase.push(noteWrite)
+    console.log(dBase)
+    fs.writeFile('./db/db.json', JSON.stringify(dBase), (err) =>{
           if (err) {
               return console.log(err)
           }; 
-          res.json(noteText)
+          res.json(dBase)
       })
   })
     
