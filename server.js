@@ -5,11 +5,7 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-<<<<<<< HEAD
 const PORT = process.env.PORT || 3000;
-=======
-const PORT = process.env.PORT || 8081;
->>>>>>> 2e9d19f0cd4a090f8df47a457143cbb1d8013de4
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
